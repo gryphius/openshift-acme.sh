@@ -5,7 +5,7 @@ WORKDIR=/acme.sh
 SLEEPTIME=3600
 FAIL_TIMER=20
 
-ACME_SH_CMD="/usr/local/bin/acme.sh"
+ACME_SH_CMD="/acme.sh/acme.sh"
 
 OPTS=""
 
