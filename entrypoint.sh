@@ -42,7 +42,7 @@ if [ "$DYNDNS_SERVER" == "" ] ; then
 fi
 
 echo "Dynamic DNS update Server(DYNDNS_SERVER): $DYNDNS_SERVER"
-export NSUPDATE_SERVER=$DSNDNS_SERVER
+export NSUPDATE_SERVER=$DYNDNS_SERVER
 
 if [ "$DYNDNS_TSIG" == "" ] ; then 
  echo "DYNDNS_TSIG is not set. Cannot continue."
