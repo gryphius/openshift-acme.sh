@@ -8,6 +8,9 @@ FAIL_TIMER=20
 ACME_SH_CMD="/acme.sh/acme.sh"
 CERTIFICATES_DIR="/certificates"
 
+# we need a writable home for writing the kube login token. Let's use the certificates volume for now until we have a better idea
+export HOME=$CERTIFICATES_DIR
+
 OPTS=""
 
 # Test if acme.sh is where we think it is
