@@ -86,9 +86,9 @@ while true; do
     $CMD
 
     echo "Patching Route..."
-    CRT="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CERTIFICATE_HOSTNAME}.cer"
+    CRT="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CERT_HOSTNAME}.cer"
     CA="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/ca.cer"
-    KEY="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CERTIFICATE_HOSTNAME}.key"
+    KEY="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CERT_HOSTNAME}.key"
 
     if ! [ -f $CRT ] ; then 
         echo "$CRT not found"
