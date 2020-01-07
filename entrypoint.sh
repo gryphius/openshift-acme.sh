@@ -108,7 +108,7 @@ while true; do
         continue
     fi
 
-    /install-openshift-cert.sh $OPENSHIFT_SERVER $OPENSHIFT_ROUTE $OPENSHIFT_NAMESPACE $OPENSHIFT_ROUTE $CRT $KEY $CA
+    /install-openshift-cert.sh $OPENSHIFT_SERVER $OPENSHIFT_TOKEN $OPENSHIFT_NAMESPACE $OPENSHIFT_ROUTE $CRT $KEY $CA
 
     echo "Run completed, next run in $SLEEPTIME seconds"
     sleep $SLEEPTIME
