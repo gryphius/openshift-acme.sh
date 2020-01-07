@@ -6,6 +6,7 @@ SLEEPTIME=3600
 FAIL_TIMER=20
 
 ACME_SH_CMD="/acme.sh/acme.sh"
+CERTIFICATES_DIR="/certificates"
 
 OPTS=""
 
@@ -21,6 +22,27 @@ echo -n "test" > $WORKDIR/testwrite.txt
 res=$(cat $WORKDIR/testwrite.txt)
 if [ "$res" != "test" ]; then
  echo "Workdir $WORKDIR is not writable. Stopping here."
+ sleep $FAIL_TIMER
+ exit 1
+fi
+
+if [ "$OPENSHIFT_SERVER" == "" ] ; then 
+ echo "OPENSHIFT_SERVER is not set. Cannot continue."
+ sleep $FAIL_TIMER
+ exit 1
+fi
+if [ "$OPENSHIFT_TOKEN" == "" ] ; then 
+ echo "OPENSHIFT_TOKEN is not set. Cannot continue."
+ sleep $FAIL_TIMER
+ exit 1
+fi
+if [ "$OPENSHIFT_ROUTE" == "" ] ; then 
+ echo "OPENSHIFT_ROUTE is not set. Cannot continue."
+ sleep $FAIL_TIMER
+ exit 1
+fi
+if [ "$OPENSHIFT_NAMESPACE" == "" ] ; then 
+ echo "OPENSHIFT_NAMESPACE is not set. Cannot continue."
  sleep $FAIL_TIMER
  exit 1
 fi
@@ -62,6 +84,28 @@ while true; do
     CMD="$ACME_SH_CMD --issue -d $CERT_HOSTNAME $OPTS --dns dns_nsupdate"
     echo "Executing: $CMD"
     $CMD
+
+    echo "Patching Route..."
+    CRT="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CEERTIFICATE_HOSTNAME}.cer"
+    CA="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/ca.cer"
+    KEY="${CERTIFICATES_DIR}/${CERT_HOSTNAME}/${CEERTIFICATE_HOSTNAME}.key"
+
+    if ! [ -f $CRT ] ; then 
+        echo "$CRT not found"
+        continue
+    fi
+
+    if ! [ -f $CA ] ; then 
+        echo "$A not found"
+        continue
+    fi
+
+    if ! [ -f $KEY ] ; then 
+        echo "$KEY not found"
+        continue
+    fi
+
+    /install-openshift-cert.sh $OPENSHIFT_SERVER $OPENSHIFT_ROUTE $OPENSHIFT_NAMESPACE $OPENSHIFT_ROUTE $CRT $KEY $CA
 
     echo "Run completed, next run in $SLEEPTIME seconds"
     sleep $SLEEPTIME
